@@ -32,7 +32,7 @@ struct StmtsNode *stmtsptr;
 %type  <c>  exp
 %type <nData> x
 %type <stmtsptr> stmts 
-%type <stmtptr> stmt assignment_statement
+%type <stmtptr> stmt a_stat
 
 %right '='
 %left '-' '+'
@@ -56,15 +56,15 @@ stmt:
 	    sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $3->addr,$5->addr);
 	    sprintf($$->initJumpCode,"bge $t0, $t1,");
 	    $$->down=$8; printf("at line 58\n");}
-      | FOR '(' assignment_statement SEMIC VAR RELOP VAR SEMIC assignment_statement ')' '{' stmts '}' '\n' 
+      | FOR '(' a_stat SEMIC VAR RELOP VAR SEMIC a_stat ')' '{' stmts '}' '\n' 
 {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
 	    $$->isWhileOrFor=2;
 	    sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $5->addr,$7->addr);
 	    sprintf($$->initJumpCode,"bge $t0, $t1,");
 	    $$->down=$12; $$->forinit=$3; $$->forincre=$9;  printf("at line 64\n");}
-      | assignment_statement {$$=$1; printf("at line 60 stmt to assign\n");};
+      | a_stat {$$=$1; printf("at line 60 stmt to assign\n");};
 
-assignment_statement: VAR '=' exp    {printf("Test1");$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+a_stat: VAR '=' exp    {printf("Test1");$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
 	    $$->isWhileOrFor=0;
 	    sprintf($$->bodyCode,"%s\nsw $t0,%s($t8)\n", $3, $1->addr);
 	    $$->down=NULL; printf("at line 65\n");}
