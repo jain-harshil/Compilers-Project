@@ -1,0 +1,11 @@
+j=10
+p=15
+f=5
+k=0
+i=0
+while(i<j){
+if(f<i)break
+i=i+1
+k=k+1
+}
+k=k

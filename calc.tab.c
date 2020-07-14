@@ -77,12 +77,14 @@ void yyerror (char  *);
 int whileStart=0,nextJump=0,forStart=0,nextJumpfor=0,ifelseStart=0,nextJumpIfElse=0; /*two separate variables not necessary for this application*/
 int count=0;
 int labelCount=0;
+int inForloop=0;
+int inWhileloop=0;
 FILE *fp;
 struct StmtsNode *final;
 void StmtsTrav(stmtsptr ptr);
 void StmtTrav(stmtptr ptr);
 
-#line 86 "calc.tab.c" /* yacc.c:337  */
+#line 88 "calc.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -138,7 +140,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 16 "calc.y" /* yacc.c:352  */
+#line 18 "calc.y" /* yacc.c:352  */
 
 int   val;  /* For returning numbers.                   */
 struct symrec  *tptr;   /* For returning symbol-table pointers      */
@@ -147,7 +149,7 @@ char nData[100];
 struct StmtNode *stmtptr;
 struct StmtsNode *stmtsptr;
 
-#line 151 "calc.tab.c" /* yacc.c:352  */
+#line 153 "calc.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -451,8 +453,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    45,    45,    46,    48,    53,    54,    59,    67,    76,
-      82,    83,    87,    90,    91,    92,    93,    94,    96,    97
+       0,    47,    47,    48,    50,    55,    56,    61,    69,    78,
+      84,    85,    89,    92,    93,    94,    95,    96,    98,    99
 };
 #endif
 
@@ -1263,43 +1265,43 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 45 "calc.y" /* yacc.c:1652  */
+#line 47 "calc.y" /* yacc.c:1652  */
     {final=(yyvsp[0].stmtsptr);}
-#line 1269 "calc.tab.c" /* yacc.c:1652  */
+#line 1271 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 46 "calc.y" /* yacc.c:1652  */
+#line 48 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtsptr)=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
    (yyval.stmtsptr)->singl=1;(yyval.stmtsptr)->left=(yyvsp[0].stmtptr),(yyval.stmtsptr)->right=NULL;}
-#line 1276 "calc.tab.c" /* yacc.c:1652  */
+#line 1278 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 48 "calc.y" /* yacc.c:1652  */
+#line 50 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtsptr)=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
    (yyval.stmtsptr)->singl=0;(yyval.stmtsptr)->left=(yyvsp[-1].stmtptr),(yyval.stmtsptr)->right=(yyvsp[0].stmtsptr);}
-#line 1283 "calc.tab.c" /* yacc.c:1652  */
+#line 1285 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 53 "calc.y" /* yacc.c:1652  */
+#line 55 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtptr)=NULL;}
-#line 1289 "calc.tab.c" /* yacc.c:1652  */
+#line 1291 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 54 "calc.y" /* yacc.c:1652  */
+#line 56 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
       (yyval.stmtptr)->isWhileOrFor=1;
       sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-7].tptr)->addr,(yyvsp[-5].tptr)->addr);
       sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
       (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); }
-#line 1299 "calc.tab.c" /* yacc.c:1652  */
+#line 1301 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 60 "calc.y" /* yacc.c:1652  */
+#line 62 "calc.y" /* yacc.c:1652  */
     {
         (yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
         (yyval.stmtptr)->isBreakorContinue = 1;
@@ -1307,11 +1309,11 @@ yyreduce:
         sprintf((yyval.stmtptr)->initJumpCode,"bge $t3, $t4,");
 
       }
-#line 1311 "calc.tab.c" /* yacc.c:1652  */
+#line 1313 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 68 "calc.y" /* yacc.c:1652  */
+#line 70 "calc.y" /* yacc.c:1652  */
     {
         (yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
         (yyval.stmtptr)->isIfElse = 1;
@@ -1320,84 +1322,84 @@ yyreduce:
         (yyval.stmtptr)->ifcode = (yyvsp[-6].stmtsptr);
         (yyval.stmtptr)->elsecode = (yyvsp[-2].stmtsptr);
       }
-#line 1324 "calc.tab.c" /* yacc.c:1652  */
+#line 1326 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 77 "calc.y" /* yacc.c:1652  */
+#line 79 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
       (yyval.stmtptr)->isWhileOrFor=2;
       sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-9].tptr)->addr,(yyvsp[-7].tptr)->addr);
       sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
       (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); (yyval.stmtptr)->forinit=(yyvsp[-11].stmtptr); (yyval.stmtptr)->forincre=(yyvsp[-5].stmtptr); }
-#line 1334 "calc.tab.c" /* yacc.c:1652  */
+#line 1336 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 82 "calc.y" /* yacc.c:1652  */
+#line 84 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtptr)=(yyvsp[0].stmtptr);}
-#line 1340 "calc.tab.c" /* yacc.c:1652  */
+#line 1342 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 83 "calc.y" /* yacc.c:1652  */
+#line 85 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
       (yyval.stmtptr)->isWhileOrFor=0;
       sprintf((yyval.stmtptr)->bodyCode,"%s\nsw $t0,%s($t8)\n", (yyvsp[0].c), (yyvsp[-2].tptr)->addr);
       (yyval.stmtptr)->down=NULL; }
-#line 1349 "calc.tab.c" /* yacc.c:1652  */
+#line 1351 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 87 "calc.y" /* yacc.c:1652  */
+#line 89 "calc.y" /* yacc.c:1652  */
     { yyerrok; }
-#line 1355 "calc.tab.c" /* yacc.c:1652  */
+#line 1357 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 90 "calc.y" /* yacc.c:1652  */
+#line 92 "calc.y" /* yacc.c:1652  */
     { sprintf((yyval.c),"%s",(yyvsp[0].nData));count=(count+1)%2;}
-#line 1361 "calc.tab.c" /* yacc.c:1652  */
+#line 1363 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 91 "calc.y" /* yacc.c:1652  */
+#line 93 "calc.y" /* yacc.c:1652  */
     { sprintf((yyval.c),"%s\n%s\nadd $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1367 "calc.tab.c" /* yacc.c:1652  */
+#line 1369 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 92 "calc.y" /* yacc.c:1652  */
+#line 94 "calc.y" /* yacc.c:1652  */
     { sprintf((yyval.c),"%s\n%s\nsub $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1373 "calc.tab.c" /* yacc.c:1652  */
+#line 1375 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 93 "calc.y" /* yacc.c:1652  */
+#line 95 "calc.y" /* yacc.c:1652  */
     { sprintf((yyval.c),"%s\n%s\nmul $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1379 "calc.tab.c" /* yacc.c:1652  */
+#line 1381 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 94 "calc.y" /* yacc.c:1652  */
+#line 96 "calc.y" /* yacc.c:1652  */
     { sprintf((yyval.c),"%s\n%s\ndiv $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1385 "calc.tab.c" /* yacc.c:1652  */
+#line 1387 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 96 "calc.y" /* yacc.c:1652  */
+#line 98 "calc.y" /* yacc.c:1652  */
     {sprintf((yyval.nData),"li $t%d, %d",count,(yyvsp[0].val));count=(count+1)%2; }
-#line 1391 "calc.tab.c" /* yacc.c:1652  */
+#line 1393 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 97 "calc.y" /* yacc.c:1652  */
+#line 99 "calc.y" /* yacc.c:1652  */
     {sprintf((yyval.nData), "lw $t%d, %s($t8)",count,(yyvsp[0].tptr)->addr);count=(count+1)%2; }
-#line 1397 "calc.tab.c" /* yacc.c:1652  */
+#line 1399 "calc.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1401 "calc.tab.c" /* yacc.c:1652  */
+#line 1403 "calc.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1628,7 +1630,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 99 "calc.y" /* yacc.c:1918  */
+#line 101 "calc.y" /* yacc.c:1918  */
 
 
 void StmtsTrav(stmtsptr ptr){
@@ -1652,19 +1654,33 @@ void StmtsTrav(stmtsptr ptr){
     fprintf(fp,"ElseEnd%d:\n",ws);
 
    }
-   if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
+   if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;inWhileloop=1;
      fprintf(fp,"LabStartWhile%d:%s\n%s NextPartWhile%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
-     fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj);}
-    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;
+     fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj);     inWhileloop=0;
+}
+    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;inForloop=1;
      StmtTrav(ptr->forinit);
      fprintf(fp,"LabStartFor%d:%s\n%s NextPartFor%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      StmtTrav(ptr->forincre);
-     fprintf(fp,"j LabStartFor%d\nNextPartFor%d:\n",ws,nj);}
+     fprintf(fp,"j LabStartFor%d\nNextPartFor%d:\n",ws,nj);
+     inForloop=0;
+   }
     if(ptr->isBreakorContinue==1){
-      ws = forStart;
-      ws--;
-      fprintf(fp,"%s\n%s NextPartFor%d\n",ptr->initCode,ptr->initJumpCode,ws);
+      
+      if(inForloop==1 && inWhileloop==0){
+        printf("inForloop");
+        ws = forStart;
+        ws--;
+          fprintf(fp,"%s\n%s NextPartFor%d\n",ptr->initCode,ptr->initJumpCode,ws);
+      }
+      if(inWhileloop==1 && inForloop==0){
+        printf("inWhileloop");
+        ws = whileStart;
+        ws--;
+          fprintf(fp,"%s\n%s NextPartWhile%d\n",ptr->initCode,ptr-> initJumpCode,ws);
+      }
     }
+
 }
    
 

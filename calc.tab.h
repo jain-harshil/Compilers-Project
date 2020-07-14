@@ -67,7 +67,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 16 "calc.y" /* yacc.c:1921  */
+#line 18 "calc.y" /* yacc.c:1921  */
 
 int   val;  /* For returning numbers.                   */
 struct symrec  *tptr;   /* For returning symbol-table pointers      */

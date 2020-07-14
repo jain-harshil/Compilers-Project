@@ -8,6 +8,8 @@ void yyerror (char  *);
 int whileStart=0,nextJump=0,forStart=0,nextJumpfor=0,ifelseStart=0,nextJumpIfElse=0; /*two separate variables not necessary for this application*/
 int count=0;
 int labelCount=0;
+int inForloop=0;
+int inWhileloop=0;
 FILE *fp;
 struct StmtsNode *final;
 void StmtsTrav(stmtsptr ptr);
@@ -119,19 +121,33 @@ void StmtsTrav(stmtsptr ptr){
     fprintf(fp,"ElseEnd%d:\n",ws);
 
    }
-   if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
+   if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;inWhileloop=1;
      fprintf(fp,"LabStartWhile%d:%s\n%s NextPartWhile%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
-     fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj);}
-    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;
+     fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj);     inWhileloop=0;
+}
+    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;inForloop=1;
      StmtTrav(ptr->forinit);
      fprintf(fp,"LabStartFor%d:%s\n%s NextPartFor%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      StmtTrav(ptr->forincre);
-     fprintf(fp,"j LabStartFor%d\nNextPartFor%d:\n",ws,nj);}
+     fprintf(fp,"j LabStartFor%d\nNextPartFor%d:\n",ws,nj);
+     inForloop=0;
+   }
     if(ptr->isBreakorContinue==1){
-      ws = forStart;
-      ws--;
-      fprintf(fp,"%s\n%s NextPartFor%d\n",ptr->initCode,ptr->initJumpCode,ws);
+      
+      if(inForloop==1 && inWhileloop==0){
+        printf("inForloop");
+        ws = forStart;
+        ws--;
+          fprintf(fp,"%s\n%s NextPartFor%d\n",ptr->initCode,ptr->initJumpCode,ws);
+      }
+      if(inWhileloop==1 && inForloop==0){
+        printf("inWhileloop");
+        ws = whileStart;
+        ws--;
+          fprintf(fp,"%s\n%s NextPartWhile%d\n",ptr->initCode,ptr-> initJumpCode,ws);
+      }
     }
+
 }
    
 
