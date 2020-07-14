@@ -1,10 +1,14 @@
 j=10
 p=5
 for(i=0;i<j;i=i+1){   
-    k=k+10
+if(j<p){
+k=k+10
+}else{
+k=k+5
 }
-k=k
+}
 
+k=k
 
 
 

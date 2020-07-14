@@ -15,11 +15,23 @@ LabStartWhile0:lw $t0, 8($t8)
 lw $t1, 0($t8)
 
 bge $t0, $t1, NextPart0
+IfStart1:lw $t0, 0($t8)
+lw $t1, 4($t8)
+
+bge $t0, $t1, NextPart1
 lw $t0, 12($t8)
 li $t1, 10
 add $t0, $t0, $t1
 sw $t0,12($t8)
 
+j ElseEnd1
+NextPart1:
+lw $t0, 12($t8)
+li $t1, 5
+add $t0, $t0, $t1
+sw $t0,12($t8)
+
+ElseEnd1:
 lw $t0, 8($t8)
 li $t1, 1
 add $t0, $t0, $t1

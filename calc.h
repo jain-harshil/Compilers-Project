@@ -28,10 +28,13 @@ struct StmtNode
 {
   int isWhileOrFor; 
   // 0=assign 1=while 2=for
+  int isIfElse;
   char initCode[100];
   char initJumpCode[20];
   char bodyCode[1000];
   struct StmtsNode *down;
+  struct StmtsNode *ifcode;
+  struct StmtsNode *elsecode;
   struct StmtNode *forinit;
   struct StmtNode *forincre;
 };

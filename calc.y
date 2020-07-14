@@ -27,7 +27,7 @@ struct StmtsNode *stmtsptr;
 
 %token  <val> NUM        /* Integer */
 %token <val> RELOP
-%token  WHILE FOR SEMIC
+%token  WHILE FOR SEMIC IF ELSE
 %token <tptr> VAR   
 %type  <c>  exp
 %type <nData> x
@@ -56,6 +56,15 @@ stmt:
 	    sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $3->addr,$5->addr);
 	    sprintf($$->initJumpCode,"bge $t0, $t1,");
 	    $$->down=$8; }
+      | IF '(' VAR RELOP VAR ')' '{' stmts '}' ELSE '{' stmts '}' '\n'
+      {
+        $$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+        $$->isIfElse = 1;
+        sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $3->addr,$5->addr);
+        sprintf($$->initJumpCode,"bge $t0, $t1,");
+        $$->ifcode = $8;
+        $$->elsecode = $12;
+      }
       | FOR '(' a_stat SEMIC VAR RELOP VAR SEMIC a_stat ')' '{' stmts '}' '\n' 
 {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
 	    $$->isWhileOrFor=2;
@@ -95,7 +104,14 @@ void StmtsTrav(stmtsptr ptr){
    int ws,nj;
    printf("stmt\n");
    if(ptr==NULL) return;
-   if(ptr->isWhileOrFor==0){fprintf(fp,"%s\n",ptr->bodyCode);}
+   if(ptr->isWhileOrFor==0 && ptr->isIfElse==0){fprintf(fp,"%s\n",ptr->bodyCode);}
+   if(ptr->isIfElse==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
+    fprintf(fp,"IfStart%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->ifcode);
+    fprintf(fp,"j ElseEnd%d\nNextPart%d:\n",ws,nj);
+    StmtsTrav(ptr->elsecode);
+    fprintf(fp,"ElseEnd%d:\n",ws);
+
+   }
    if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
      fprintf(fp,"LabStartWhile%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      fprintf(fp,"j LabStartWhile%d\nNextPart%d:\n",ws,nj);}
