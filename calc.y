@@ -100,13 +100,9 @@ void StmtsTrav(stmtsptr ptr){
      fprintf(fp,"LabStartWhile%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      fprintf(fp,"j LabStartWhile%d\nNextPart%d:\n",ws,nj);}
     if(ptr->isWhileOrFor==2){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
-    // fprintf(fp,"writing init \n");
      StmtTrav(ptr->forinit);
-    //  fprintf(fp,"writen init \n");
      fprintf(fp,"LabStartWhile%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
-    //  fprintf(fp,"writing forincr \n");
      StmtTrav(ptr->forincre);
-    //  fprintf(fp,"writt incr \n");
      fprintf(fp,"j LabStartWhile%d\nNextPart%d:\n",ws,nj);}
 }
    
