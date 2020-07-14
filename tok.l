@@ -15,6 +15,8 @@ id [a-z]+
 "while" {return WHILE;}
 "if" {return IF;}
 "else" {return ELSE;}
+"break" {return BREAK;}
+"continue" {return CONTINUE;}
 "<"   {yylval.val=2;return RELOP;}
 {number} {sscanf(yytext,"%d",&yylval.val);return NUM;}
 {id} {symrec *s;s=getsym(yytext); if(s==0) s=putsym(yytext,VAR);yylval.tptr=s;return VAR;}

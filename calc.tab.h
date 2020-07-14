@@ -56,7 +56,9 @@ extern int yydebug;
     SEMIC = 262,
     IF = 263,
     ELSE = 264,
-    VAR = 265
+    BREAK = 265,
+    CONTINUE = 266,
+    VAR = 267
   };
 #endif
 
@@ -74,7 +76,7 @@ char nData[100];
 struct StmtNode *stmtptr;
 struct StmtsNode *stmtsptr;
 
-#line 78 "calc.tab.h" /* yacc.c:1921  */
+#line 80 "calc.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;

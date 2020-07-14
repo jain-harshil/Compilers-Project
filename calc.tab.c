@@ -74,7 +74,7 @@
 #include "calc.h"  /* Contains definition of `symrec'        */
 int  yylex(void);
 void yyerror (char  *);
-int whileStart=0,nextJump=0; /*two separate variables not necessary for this application*/
+int whileStart=0,nextJump=0,forStart=0,nextJumpfor=0,ifelseStart=0,nextJumpIfElse=0; /*two separate variables not necessary for this application*/
 int count=0;
 int labelCount=0;
 FILE *fp;
@@ -127,7 +127,9 @@ extern int yydebug;
     SEMIC = 262,
     IF = 263,
     ELSE = 264,
-    VAR = 265
+    BREAK = 265,
+    CONTINUE = 266,
+    VAR = 267
   };
 #endif
 
@@ -145,7 +147,7 @@ char nData[100];
 struct StmtNode *stmtptr;
 struct StmtsNode *stmtsptr;
 
-#line 149 "calc.tab.c" /* yacc.c:352  */
+#line 151 "calc.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -393,19 +395,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  16
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   71
+#define YYLAST   69
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  21
+#define YYNTOKENS  23
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  18
+#define YYNRULES  19
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  62
+#define YYNSTATES  64
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   265
+#define YYMAXUTOK   267
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, with out-of-bounds checking.  */
@@ -417,18 +419,18 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      16,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      18,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      17,    18,    14,    13,     2,    12,     2,    15,     2,     2,
+      19,    20,    16,    15,     2,    14,     2,    17,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,    11,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,    13,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    19,     2,    20,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,    21,     2,    22,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -442,15 +444,15 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10
+       5,     6,     7,     8,     9,    10,    11,    12
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    45,    45,    46,    48,    53,    54,    59,    68,    74,
-      76,    80,    83,    84,    85,    86,    87,    89,    90
+       0,    45,    45,    46,    48,    53,    54,    59,    67,    76,
+      82,    83,    87,    90,    91,    92,    93,    94,    96,    97
 };
 #endif
 
@@ -460,9 +462,9 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "NUM", "RELOP", "WHILE", "FOR", "SEMIC",
-  "IF", "ELSE", "VAR", "'='", "'-'", "'+'", "'*'", "'/'", "'\\n'", "'('",
-  "')'", "'{'", "'}'", "$accept", "prog", "stmts", "stmt", "a_stat", "exp",
-  "x", YY_NULLPTR
+  "IF", "ELSE", "BREAK", "CONTINUE", "VAR", "'='", "'-'", "'+'", "'*'",
+  "'/'", "'\\n'", "'('", "')'", "'{'", "'}'", "$accept", "prog", "stmts",
+  "stmt", "a_stat", "exp", "x", YY_NULLPTR
 };
 #endif
 
@@ -472,15 +474,15 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,    61,    45,    43,    42,    47,    10,    40,    41,   123,
-     125
+     265,   266,   267,    61,    45,    43,    42,    47,    10,    40,
+      41,   123,   125
 };
 # endif
 
-#define YYPACT_NINF -13
+#define YYPACT_NINF -14
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-13)))
+  (!!((Yystate) == (-14)))
 
 #define YYTABLE_NINF -4
 
@@ -491,13 +493,13 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      15,   -11,    -8,    -6,    -3,    -5,   -13,    19,   -13,     2,
-     -13,   -13,     5,     3,    20,    14,   -13,   -13,    28,    33,
-      37,   -13,   -13,   -13,    24,    32,    34,    38,    14,    14,
-      14,    14,    25,    43,    31,   -13,   -13,   -13,   -13,    35,
-      40,    36,    15,    44,    15,    39,     3,    41,    42,    45,
-      47,   -13,    46,    48,    15,    15,    49,    50,    52,    55,
-     -13,   -13
+      10,   -13,   -10,    -7,     4,     8,   -14,    25,   -14,     2,
+     -14,   -14,    14,     5,    15,     1,   -14,   -14,    27,    22,
+      28,   -14,   -14,   -14,    23,    33,    34,    37,     1,     1,
+       1,     1,    30,    47,    32,   -14,   -14,   -14,   -14,    35,
+      41,     9,    10,    48,    16,    10,    36,     5,   -14,    38,
+      39,    42,    45,   -14,    40,    43,    10,    10,    44,    46,
+      49,    51,   -14,   -14
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -506,18 +508,18 @@ static const yytype_int8 yypact[] =
 static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     5,     0,     2,     0,
-       9,    11,     0,     0,     0,     0,     1,     4,     0,     0,
-       0,    17,    18,    10,    12,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,    14,    13,    15,    16,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     6,     0,     0,     0,     0,     0,     0,     0,     0,
-       8,     7
+      10,    12,     0,     0,     0,     0,     1,     4,     0,     0,
+       0,    18,    19,    11,    13,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    15,    14,    16,    17,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     7,     0,
+       0,     0,     0,     6,     0,     0,     0,     0,     0,     0,
+       0,     0,     9,     8
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -13,   -13,    -9,   -13,   -12,   -13,    -2
+     -14,   -14,    -9,   -14,   -12,   -14,    13
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -531,53 +533,51 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      17,    19,    -3,     1,     1,    11,    15,     2,     3,    12,
-       4,    13,     5,     5,    14,    18,     1,    21,     6,    16,
-       2,     3,    -3,     4,    22,     5,    35,    36,    37,    38,
-      20,     6,    25,    45,    49,    47,    28,    29,    30,    31,
-      26,    27,    32,    39,    33,    56,    57,    40,    34,    41,
-      43,    46,     0,     0,    42,    44,    53,     0,    51,    48,
-       0,    50,     0,    52,     0,    54,     0,    55,    60,    58,
-      59,    61
+      17,    19,    -3,     1,    21,    11,     1,     2,     3,    12,
+       4,     1,    13,    22,     5,     2,     3,     5,     4,    44,
+       6,    15,     5,    14,    -3,    16,    18,    20,     6,    26,
+      45,    25,    27,    46,    48,    51,    49,    28,    29,    30,
+      31,    35,    36,    37,    38,    32,    33,    58,    59,    34,
+      39,    40,    41,    43,    55,    47,    42,    53,    50,     0,
+      52,    56,    54,     0,    57,     0,    60,    62,    61,    63
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,    13,     0,     1,     1,    16,    11,     5,     6,    17,
-       8,    17,    10,    10,    17,    10,     1,     3,    16,     0,
-       5,     6,    20,     8,    10,    10,    28,    29,    30,    31,
-      10,    16,     4,    42,    46,    44,    12,    13,    14,    15,
-       7,     4,    10,    18,    10,    54,    55,     4,    10,    18,
-      10,     7,    -1,    -1,    19,    19,     9,    -1,    16,    20,
-      -1,    20,    -1,    18,    -1,    19,    -1,    19,    16,    20,
-      20,    16
+       9,    13,     0,     1,     3,    18,     1,     5,     6,    19,
+       8,     1,    19,    12,    12,     5,     6,    12,     8,    10,
+      18,    13,    12,    19,    22,     0,    12,    12,    18,     7,
+      21,     4,     4,    42,    18,    47,    45,    14,    15,    16,
+      17,    28,    29,    30,    31,    12,    12,    56,    57,    12,
+      20,     4,    20,    12,     9,     7,    21,    18,    22,    -1,
+      22,    21,    20,    -1,    21,    -1,    22,    18,    22,    18
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     1,     5,     6,     8,    10,    16,    22,    23,    24,
-      25,    16,    17,    17,    17,    11,     0,    23,    10,    25,
-      10,     3,    10,    26,    27,     4,     7,     4,    12,    13,
-      14,    15,    10,    10,    10,    27,    27,    27,    27,    18,
-       4,    18,    19,    10,    19,    23,     7,    23,    20,    25,
-      20,    16,    18,     9,    19,    19,    23,    23,    20,    20,
-      16,    16
+       0,     1,     5,     6,     8,    12,    18,    24,    25,    26,
+      27,    18,    19,    19,    19,    13,     0,    25,    12,    27,
+      12,     3,    12,    28,    29,     4,     7,     4,    14,    15,
+      16,    17,    12,    12,    12,    29,    29,    29,    29,    20,
+       4,    20,    21,    12,    10,    21,    25,     7,    18,    25,
+      22,    27,    22,    18,    20,     9,    21,    21,    25,    25,
+      22,    22,    18,    18
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    21,    22,    23,    23,    24,    24,    24,    24,    24,
-      25,    25,    26,    26,    26,    26,    26,    27,    27
+       0,    23,    24,    25,    25,    26,    26,    26,    26,    26,
+      26,    27,    27,    28,    28,    28,    28,    28,    29,    29
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     1,     2,     1,    10,    14,    14,     1,
-       3,     2,     1,     3,     3,     3,     3,     1,     1
+       0,     2,     1,     1,     2,     1,    10,     8,    14,    14,
+       1,     3,     2,     1,     3,     3,     3,     3,     1,     1
 };
 
 
@@ -1291,15 +1291,27 @@ yyreduce:
   case 6:
 #line 54 "calc.y" /* yacc.c:1652  */
     {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-	    (yyval.stmtptr)->isWhileOrFor=1;
-	    sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-7].tptr)->addr,(yyvsp[-5].tptr)->addr);
-	    sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
-	    (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); }
+      (yyval.stmtptr)->isWhileOrFor=1;
+      sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-7].tptr)->addr,(yyvsp[-5].tptr)->addr);
+      sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
+      (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); }
 #line 1299 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
 #line 60 "calc.y" /* yacc.c:1652  */
+    {
+        (yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+        (yyval.stmtptr)->isBreakorContinue = 1;
+        sprintf((yyval.stmtptr)->initCode,"lw $t3, %s($t8)\nlw $t4, %s($t8)\n", (yyvsp[-3].tptr)->addr,(yyvsp[-5].tptr)->addr);
+        sprintf((yyval.stmtptr)->initJumpCode,"bge $t3, $t4,");
+
+      }
+#line 1311 "calc.tab.c" /* yacc.c:1652  */
+    break;
+
+  case 8:
+#line 68 "calc.y" /* yacc.c:1652  */
     {
         (yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
         (yyval.stmtptr)->isIfElse = 1;
@@ -1308,84 +1320,84 @@ yyreduce:
         (yyval.stmtptr)->ifcode = (yyvsp[-6].stmtsptr);
         (yyval.stmtptr)->elsecode = (yyvsp[-2].stmtsptr);
       }
-#line 1312 "calc.tab.c" /* yacc.c:1652  */
-    break;
-
-  case 8:
-#line 69 "calc.y" /* yacc.c:1652  */
-    {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-	    (yyval.stmtptr)->isWhileOrFor=2;
-	    sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-9].tptr)->addr,(yyvsp[-7].tptr)->addr);
-	    sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
-	    (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); (yyval.stmtptr)->forinit=(yyvsp[-11].stmtptr); (yyval.stmtptr)->forincre=(yyvsp[-5].stmtptr); }
-#line 1322 "calc.tab.c" /* yacc.c:1652  */
+#line 1324 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 74 "calc.y" /* yacc.c:1652  */
-    {(yyval.stmtptr)=(yyvsp[0].stmtptr);}
-#line 1328 "calc.tab.c" /* yacc.c:1652  */
+#line 77 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+      (yyval.stmtptr)->isWhileOrFor=2;
+      sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-9].tptr)->addr,(yyvsp[-7].tptr)->addr);
+      sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
+      (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); (yyval.stmtptr)->forinit=(yyvsp[-11].stmtptr); (yyval.stmtptr)->forincre=(yyvsp[-5].stmtptr); }
+#line 1334 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 76 "calc.y" /* yacc.c:1652  */
-    {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-	    (yyval.stmtptr)->isWhileOrFor=0;
-	    sprintf((yyval.stmtptr)->bodyCode,"%s\nsw $t0,%s($t8)\n", (yyvsp[0].c), (yyvsp[-2].tptr)->addr);
-	    (yyval.stmtptr)->down=NULL; }
-#line 1337 "calc.tab.c" /* yacc.c:1652  */
+#line 82 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtptr)=(yyvsp[0].stmtptr);}
+#line 1340 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 80 "calc.y" /* yacc.c:1652  */
-    { yyerrok; }
-#line 1343 "calc.tab.c" /* yacc.c:1652  */
-    break;
-
-  case 12:
 #line 83 "calc.y" /* yacc.c:1652  */
-    { sprintf((yyval.c),"%s",(yyvsp[0].nData));count=(count+1)%2;}
+    {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+      (yyval.stmtptr)->isWhileOrFor=0;
+      sprintf((yyval.stmtptr)->bodyCode,"%s\nsw $t0,%s($t8)\n", (yyvsp[0].c), (yyvsp[-2].tptr)->addr);
+      (yyval.stmtptr)->down=NULL; }
 #line 1349 "calc.tab.c" /* yacc.c:1652  */
     break;
 
-  case 13:
-#line 84 "calc.y" /* yacc.c:1652  */
-    { sprintf((yyval.c),"%s\n%s\nadd $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+  case 12:
+#line 87 "calc.y" /* yacc.c:1652  */
+    { yyerrok; }
 #line 1355 "calc.tab.c" /* yacc.c:1652  */
     break;
 
-  case 14:
-#line 85 "calc.y" /* yacc.c:1652  */
-    { sprintf((yyval.c),"%s\n%s\nsub $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+  case 13:
+#line 90 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s",(yyvsp[0].nData));count=(count+1)%2;}
 #line 1361 "calc.tab.c" /* yacc.c:1652  */
     break;
 
-  case 15:
-#line 86 "calc.y" /* yacc.c:1652  */
-    { sprintf((yyval.c),"%s\n%s\nmul $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+  case 14:
+#line 91 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\nadd $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
 #line 1367 "calc.tab.c" /* yacc.c:1652  */
     break;
 
-  case 16:
-#line 87 "calc.y" /* yacc.c:1652  */
-    { sprintf((yyval.c),"%s\n%s\ndiv $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+  case 15:
+#line 92 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\nsub $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
 #line 1373 "calc.tab.c" /* yacc.c:1652  */
     break;
 
-  case 17:
-#line 89 "calc.y" /* yacc.c:1652  */
-    {sprintf((yyval.nData),"li $t%d, %d",count,(yyvsp[0].val));count=(count+1)%2; }
+  case 16:
+#line 93 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\nmul $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
 #line 1379 "calc.tab.c" /* yacc.c:1652  */
     break;
 
-  case 18:
-#line 90 "calc.y" /* yacc.c:1652  */
-    {sprintf((yyval.nData), "lw $t%d, %s($t8)",count,(yyvsp[0].tptr)->addr);count=(count+1)%2; }
+  case 17:
+#line 94 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\ndiv $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
 #line 1385 "calc.tab.c" /* yacc.c:1652  */
     break;
 
+  case 18:
+#line 96 "calc.y" /* yacc.c:1652  */
+    {sprintf((yyval.nData),"li $t%d, %d",count,(yyvsp[0].val));count=(count+1)%2; }
+#line 1391 "calc.tab.c" /* yacc.c:1652  */
+    break;
 
-#line 1389 "calc.tab.c" /* yacc.c:1652  */
+  case 19:
+#line 97 "calc.y" /* yacc.c:1652  */
+    {sprintf((yyval.nData), "lw $t%d, %s($t8)",count,(yyvsp[0].tptr)->addr);count=(count+1)%2; }
+#line 1397 "calc.tab.c" /* yacc.c:1652  */
+    break;
+
+
+#line 1401 "calc.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1616,38 +1628,43 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 92 "calc.y" /* yacc.c:1918  */
+#line 99 "calc.y" /* yacc.c:1918  */
 
 
 void StmtsTrav(stmtsptr ptr){
   printf("stmts\n");
   if(ptr==NULL) return;
-	  if(ptr->singl==1)StmtTrav(ptr->left);
-	  else{
-	  StmtTrav(ptr->left);
-	  StmtsTrav(ptr->right);
-	  }
-	  }
+    if(ptr->singl==1)StmtTrav(ptr->left);
+    else{
+    StmtTrav(ptr->left);
+    StmtsTrav(ptr->right);
+    }
+    }
  void StmtTrav(stmtptr ptr){
    int ws,nj;
    printf("stmt\n");
    if(ptr==NULL) return;
-   if(ptr->isWhileOrFor==0 && ptr->isIfElse==0){fprintf(fp,"%s\n",ptr->bodyCode);}
-   if(ptr->isIfElse==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
-    fprintf(fp,"IfStart%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->ifcode);
-    fprintf(fp,"j ElseEnd%d\nNextPart%d:\n",ws,nj);
+   if(ptr->isWhileOrFor==0 && ptr->isIfElse==0 &&ptr->isBreakorContinue==0){fprintf(fp,"%s\n",ptr->bodyCode);}
+   if(ptr->isIfElse==1){ws=ifelseStart; ifelseStart++;nj=nextJumpIfElse;nextJumpIfElse++;
+    fprintf(fp,"IfStart%d:%s\n%s NextPartIfElse%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->ifcode);
+    fprintf(fp,"j ElseEnd%d\nNextPartIfElse%d:\n",ws,nj);
     StmtsTrav(ptr->elsecode);
     fprintf(fp,"ElseEnd%d:\n",ws);
 
    }
    if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
-     fprintf(fp,"LabStartWhile%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
-     fprintf(fp,"j LabStartWhile%d\nNextPart%d:\n",ws,nj);}
-    if(ptr->isWhileOrFor==2){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
+     fprintf(fp,"LabStartWhile%d:%s\n%s NextPartWhile%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
+     fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj);}
+    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;
      StmtTrav(ptr->forinit);
-     fprintf(fp,"LabStartWhile%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
+     fprintf(fp,"LabStartFor%d:%s\n%s NextPartFor%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      StmtTrav(ptr->forincre);
-     fprintf(fp,"j LabStartWhile%d\nNextPart%d:\n",ws,nj);}
+     fprintf(fp,"j LabStartFor%d\nNextPartFor%d:\n",ws,nj);}
+    if(ptr->isBreakorContinue==1){
+      ws = forStart;
+      ws--;
+      fprintf(fp,"%s\n%s NextPartFor%d\n",ptr->initCode,ptr->initJumpCode,ws);
+    }
 }
    
 

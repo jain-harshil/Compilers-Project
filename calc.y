@@ -5,7 +5,7 @@
 #include "calc.h"  /* Contains definition of `symrec'        */
 int  yylex(void);
 void yyerror (char  *);
-int whileStart=0,nextJump=0; /*two separate variables not necessary for this application*/
+int whileStart=0,nextJump=0,forStart=0,nextJumpfor=0,ifelseStart=0,nextJumpIfElse=0; /*two separate variables not necessary for this application*/
 int count=0;
 int labelCount=0;
 FILE *fp;
@@ -27,7 +27,7 @@ struct StmtsNode *stmtsptr;
 
 %token  <val> NUM        /* Integer */
 %token <val> RELOP
-%token  WHILE FOR SEMIC IF ELSE
+%token  WHILE FOR SEMIC IF ELSE BREAK CONTINUE
 %token <tptr> VAR   
 %type  <c>  exp
 %type <nData> x
@@ -52,10 +52,18 @@ stmts: stmt {$$=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
 stmt:
           '\n' {$$=NULL;}
         | WHILE '(' VAR RELOP VAR ')' '{' stmts '}' '\n' {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-	    $$->isWhileOrFor=1;
-	    sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $3->addr,$5->addr);
-	    sprintf($$->initJumpCode,"bge $t0, $t1,");
-	    $$->down=$8; }
+      $$->isWhileOrFor=1;
+      sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $3->addr,$5->addr);
+      sprintf($$->initJumpCode,"bge $t0, $t1,");
+      $$->down=$8; }
+      | IF '(' VAR RELOP VAR ')' BREAK '\n'
+      {
+        $$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+        $$->isBreakorContinue = 1;
+        sprintf($$->initCode,"lw $t3, %s($t8)\nlw $t4, %s($t8)\n", $5->addr,$3->addr);
+        sprintf($$->initJumpCode,"bge $t3, $t4,");
+
+      }
       | IF '(' VAR RELOP VAR ')' '{' stmts '}' ELSE '{' stmts '}' '\n'
       {
         $$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
@@ -67,16 +75,15 @@ stmt:
       }
       | FOR '(' a_stat SEMIC VAR RELOP VAR SEMIC a_stat ')' '{' stmts '}' '\n' 
 {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-	    $$->isWhileOrFor=2;
-	    sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $5->addr,$7->addr);
-	    sprintf($$->initJumpCode,"bge $t0, $t1,");
-	    $$->down=$12; $$->forinit=$3; $$->forincre=$9; }
+      $$->isWhileOrFor=2;
+      sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $5->addr,$7->addr);
+      sprintf($$->initJumpCode,"bge $t0, $t1,");
+      $$->down=$12; $$->forinit=$3; $$->forincre=$9; }
       | a_stat {$$=$1;};
-
 a_stat: VAR '=' exp    {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-	    $$->isWhileOrFor=0;
-	    sprintf($$->bodyCode,"%s\nsw $t0,%s($t8)\n", $3, $1->addr);
-	    $$->down=NULL; }
+      $$->isWhileOrFor=0;
+      sprintf($$->bodyCode,"%s\nsw $t0,%s($t8)\n", $3, $1->addr);
+      $$->down=NULL; }
         | error '\n' { yyerrok; };
 /* Invariant: we store the result of an expression in R0 */
 
@@ -94,32 +101,37 @@ x:   NUM {sprintf($$,"li $t%d, %d",count,$1);count=(count+1)%2; }
 void StmtsTrav(stmtsptr ptr){
   printf("stmts\n");
   if(ptr==NULL) return;
-	  if(ptr->singl==1)StmtTrav(ptr->left);
-	  else{
-	  StmtTrav(ptr->left);
-	  StmtsTrav(ptr->right);
-	  }
-	  }
+    if(ptr->singl==1)StmtTrav(ptr->left);
+    else{
+    StmtTrav(ptr->left);
+    StmtsTrav(ptr->right);
+    }
+    }
  void StmtTrav(stmtptr ptr){
    int ws,nj;
    printf("stmt\n");
    if(ptr==NULL) return;
-   if(ptr->isWhileOrFor==0 && ptr->isIfElse==0){fprintf(fp,"%s\n",ptr->bodyCode);}
-   if(ptr->isIfElse==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
-    fprintf(fp,"IfStart%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->ifcode);
-    fprintf(fp,"j ElseEnd%d\nNextPart%d:\n",ws,nj);
+   if(ptr->isWhileOrFor==0 && ptr->isIfElse==0 &&ptr->isBreakorContinue==0){fprintf(fp,"%s\n",ptr->bodyCode);}
+   if(ptr->isIfElse==1){ws=ifelseStart; ifelseStart++;nj=nextJumpIfElse;nextJumpIfElse++;
+    fprintf(fp,"IfStart%d:%s\n%s NextPartIfElse%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->ifcode);
+    fprintf(fp,"j ElseEnd%d\nNextPartIfElse%d:\n",ws,nj);
     StmtsTrav(ptr->elsecode);
     fprintf(fp,"ElseEnd%d:\n",ws);
 
    }
    if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
-     fprintf(fp,"LabStartWhile%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
-     fprintf(fp,"j LabStartWhile%d\nNextPart%d:\n",ws,nj);}
-    if(ptr->isWhileOrFor==2){ws=whileStart; whileStart++;nj=nextJump;nextJump++;
+     fprintf(fp,"LabStartWhile%d:%s\n%s NextPartWhile%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
+     fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj);}
+    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;
      StmtTrav(ptr->forinit);
-     fprintf(fp,"LabStartWhile%d:%s\n%s NextPart%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
+     fprintf(fp,"LabStartFor%d:%s\n%s NextPartFor%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      StmtTrav(ptr->forincre);
-     fprintf(fp,"j LabStartWhile%d\nNextPart%d:\n",ws,nj);}
+     fprintf(fp,"j LabStartFor%d\nNextPartFor%d:\n",ws,nj);}
+    if(ptr->isBreakorContinue==1){
+      ws = forStart;
+      ws--;
+      fprintf(fp,"%s\n%s NextPartFor%d\n",ptr->initCode,ptr->initJumpCode,ws);
+    }
 }
    
 
