@@ -42,33 +42,33 @@ struct StmtsNode *stmtsptr;
 /* Grammar follows */
 
 %%
-prog: stmts {final=$1; printf("at line 45\n");}
+prog: stmts {final=$1;}
 stmts: stmt {$$=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
-   $$->singl=1;$$->left=$1,$$->right=NULL; printf("at line 47\n");}
+   $$->singl=1;$$->left=$1,$$->right=NULL;}
 | stmt stmts {$$=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
-   $$->singl=0;$$->left=$1,$$->right=$2; printf("at line 49\n");}
+   $$->singl=0;$$->left=$1,$$->right=$2;}
      ;
 
 stmt:
-          '\n' {$$=NULL; printf("line 53 null statement\n");}
+          '\n' {$$=NULL;}
         | WHILE '(' VAR RELOP VAR ')' '{' stmts '}' '\n' {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
 	    $$->isWhileOrFor=1;
 	    sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $3->addr,$5->addr);
 	    sprintf($$->initJumpCode,"bge $t0, $t1,");
-	    $$->down=$8; printf("at line 58\n");}
+	    $$->down=$8; }
       | FOR '(' a_stat SEMIC VAR RELOP VAR SEMIC a_stat ')' '{' stmts '}' '\n' 
 {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
 	    $$->isWhileOrFor=2;
 	    sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $5->addr,$7->addr);
 	    sprintf($$->initJumpCode,"bge $t0, $t1,");
-	    $$->down=$12; $$->forinit=$3; $$->forincre=$9;  printf("at line 64\n");}
-      | a_stat {$$=$1; printf("at line 60 stmt to assign\n");};
+	    $$->down=$12; $$->forinit=$3; $$->forincre=$9; }
+      | a_stat {$$=$1;};
 
-a_stat: VAR '=' exp    {printf("Test1");$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+a_stat: VAR '=' exp    {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
 	    $$->isWhileOrFor=0;
 	    sprintf($$->bodyCode,"%s\nsw $t0,%s($t8)\n", $3, $1->addr);
-	    $$->down=NULL; printf("at line 65\n");}
-        | error '\n' { yyerrok; printf("at line 66\n");};
+	    $$->down=NULL; }
+        | error '\n' { yyerrok; };
 /* Invariant: we store the result of an expression in R0 */
 
 exp:      x                { sprintf($$,"%s",$1);count=(count+1)%2;}
@@ -77,8 +77,8 @@ exp:      x                { sprintf($$,"%s",$1);count=(count+1)%2;}
         | x '*' x        { sprintf($$,"%s\n%s\nmul $t0, $t0, $t1",$1,$3);}
         | x '/' x        { sprintf($$,"%s\n%s\ndiv $t0, $t0, $t1",$1,$3);}
 ;
-x:   NUM {sprintf($$,"li $t%d, %d",count,$1);count=(count+1)%2; printf("at line 75\n");}
-| VAR {sprintf($$, "lw $t%d, %s($t8)",count,$1->addr);count=(count+1)%2; printf("at line 76\n");};
+x:   NUM {sprintf($$,"li $t%d, %d",count,$1);count=(count+1)%2; }
+| VAR {sprintf($$, "lw $t%d, %s($t8)",count,$1->addr);count=(count+1)%2; };
 /* End of grammar */
 %%
 
