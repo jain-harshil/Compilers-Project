@@ -1,37 +1,78 @@
+#Team Members
+	Rohit Patil   17110126
+	Anubhav Jain  
+	Chandan Maji  17110037
+	Harshil Jain
+
+
 #How to compile:
 
-rm lex.yy.c calc.tab.c calc.tab.h a.out
-bison --debug -d calc.y
-flex --debug tok.l
-gcc calc.tab.c lex.yy.c -lfl
+	rm lex.yy.c calc.tab.c calc.tab.h a.out
+	bison --debug -d calc.y
+	flex --debug tok.l
+	gcc calc.tab.c lex.yy.c -lfl
+
+#Features : 
+	if-else (nested support)
+	While loop (nested support)
+	For loop (nested support)
+	break statement
 
 
-.prog file syntax
+# .prog file syntax
 
-if-else syntax:
+	if-else syntax:
 
-e.g.
-condition should be only of this form: a<b
+		e.g.
+		condition should be only of this form: a<b
 
-if(a<b){
-t = t+1
-}else{
-j = j+1
-}
+		if(a<b){
+		t = t+1
+		}else{
+		j = j+1
+		}
 
+	while loop syntax:
+		
+		e.g
+		while(a<b){
+		a=a+1
+		}
 
-For loop syntax:
-for(i=0;i<j;i=i+1){   
-k = k+1
-}
+	for loop syntax:
 
-Break statement syntax:
-if(a<b)break
+		e.g
+		for(i=0;i<j;i=i+1){   
+		k = k+1
+		}
+
+	Break statement syntax:
+		
+		e.g
+		if(a<b)break
 
 
 ---------------------
 How to run:
-./a.out<strln.prog
+	./a.out<[program_name]
+
+	e.g
+	./a.out<strln.prog
+
+
+#Sample programs
+
+	We have provided these example programs:
+		double.prog
+		double_while_example.prog
+		while_break_example.prog
+		for_break_example.prog
+		while_for_example.prog
+		nested_for_example.prog
+		nested_if_example.prog
+		for_if_example.prog
+		strln.prog
+
 
 The output will be asmb.asm. Load asmb.asm in Mars, assemble and run.
 ---------------------
