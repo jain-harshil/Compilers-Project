@@ -2,7 +2,7 @@
 	Rohit Patil   17110126
 	Anubhav Jain  17110021
 	Chandan Maji  17110037
-	Harshil Jain   17110060
+	Harshil Jain  17110060
 
 
 #How to compile:
