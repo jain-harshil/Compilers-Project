@@ -1,22 +1,22 @@
-#Team Members
+# Team Members
 	Rohit Patil   17110126
 	Anubhav Jain  17110021
 	Chandan Maji  17110037
 	Harshil Jain  17110060
 
 
-#How to compile:
+# How to compile:
 
 	rm lex.yy.c calc.tab.c calc.tab.h a.out
 	bison --debug -d calc.y
 	flex --debug tok.l
 	gcc calc.tab.c lex.yy.c -lfl
 
-#How to run:
+# How to run:
 	./a.out<strln.prog
 
 
-#Features : 
+# Features : 
 	if-else (nested support)
 	While loop (nested support)
 	For loop (nested support)
@@ -64,7 +64,7 @@ How to run:
 	./a.out<strln.prog
 
 
-#Sample programs
+# Sample programs
 
 	We have provided these example programs:
 		double.prog
