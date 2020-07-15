@@ -1,0 +1,13 @@
+a=5
+b=5
+k=0
+if(a<b){
+k=0
+}else{
+if(b<a){
+k=0
+}else{
+k=1
+}
+}
+k=k
