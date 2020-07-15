@@ -1,0 +1,17 @@
+j=10
+p=50
+k=0
+a=0
+b=1   
+if(j<p){
+if(a<b){
+k=k+1
+}else{
+k=k+2
+}
+}else{
+k=k+3
+}
+
+
+k=k
