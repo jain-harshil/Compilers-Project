@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.5.1"
+#define YYBISON_VERSION "3.3.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -66,7 +66,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "calc.y"
+#line 1 "calc.y" /* yacc.c:337  */
 
 #include<stdio.h>
 #include<string.h>
@@ -84,17 +84,7 @@ struct StmtsNode *final;
 void StmtsTrav(stmtsptr ptr);
 void StmtTrav(stmtptr ptr);
 
-#line 88 "calc.tab.c"
-
-# ifndef YY_CAST
-#  ifdef __cplusplus
-#   define YY_CAST(Type, Val) static_cast<Type> (Val)
-#   define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
-#  else
-#   define YY_CAST(Type, Val) ((Type) (Val))
-#   define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
-#  endif
-# endif
+#line 88 "calc.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -115,8 +105,8 @@ void StmtTrav(stmtptr ptr);
 # define YYERROR_VERBOSE 0
 #endif
 
-/* Use api.header.include to #include this header
-   instead of duplicating it here.  */
+/* In a future release of Bison, this section will be replaced
+   by #include "calc.tab.h".  */
 #ifndef YY_YY_CALC_TAB_H_INCLUDED
 # define YY_YY_CALC_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -147,9 +137,10 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 18 "calc.y"
+#line 18 "calc.y" /* yacc.c:352  */
 
 int   val;  /* For returning numbers.                   */
 struct symrec  *tptr;   /* For returning symbol-table pointers      */
@@ -158,9 +149,9 @@ char nData[100];
 struct StmtNode *stmtptr;
 struct StmtsNode *stmtsptr;
 
-#line 162 "calc.tab.c"
-
+#line 153 "calc.tab.c" /* yacc.c:352  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -179,75 +170,28 @@ int yyparse (void);
 # undef short
 #endif
 
-/* On compilers that do not define __PTRDIFF_MAX__ etc., make sure
-   <limits.h> and (if available) <stdint.h> are included
-   so that the code can choose integer types of a good width.  */
-
-#ifndef __PTRDIFF_MAX__
-# include <limits.h> /* INFRINGES ON USER NAME SPACE */
-# if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
-#  include <stdint.h> /* INFRINGES ON USER NAME SPACE */
-#  define YY_STDINT_H
-# endif
+#ifdef YYTYPE_UINT8
+typedef YYTYPE_UINT8 yytype_uint8;
+#else
+typedef unsigned char yytype_uint8;
 #endif
 
-/* Narrow types that promote to a signed type and that can represent a
-   signed or unsigned integer of at least N bits.  In tables they can
-   save space and decrease cache pressure.  Promoting to a signed type
-   helps avoid bugs in integer arithmetic.  */
-
-#ifdef __INT_LEAST8_MAX__
-typedef __INT_LEAST8_TYPE__ yytype_int8;
-#elif defined YY_STDINT_H
-typedef int_least8_t yytype_int8;
+#ifdef YYTYPE_INT8
+typedef YYTYPE_INT8 yytype_int8;
 #else
 typedef signed char yytype_int8;
 #endif
 
-#ifdef __INT_LEAST16_MAX__
-typedef __INT_LEAST16_TYPE__ yytype_int16;
-#elif defined YY_STDINT_H
-typedef int_least16_t yytype_int16;
+#ifdef YYTYPE_UINT16
+typedef YYTYPE_UINT16 yytype_uint16;
+#else
+typedef unsigned short yytype_uint16;
+#endif
+
+#ifdef YYTYPE_INT16
+typedef YYTYPE_INT16 yytype_int16;
 #else
 typedef short yytype_int16;
-#endif
-
-#if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST8_TYPE__ yytype_uint8;
-#elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST8_MAX <= INT_MAX)
-typedef uint_least8_t yytype_uint8;
-#elif !defined __UINT_LEAST8_MAX__ && UCHAR_MAX <= INT_MAX
-typedef unsigned char yytype_uint8;
-#else
-typedef short yytype_uint8;
-#endif
-
-#if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST16_TYPE__ yytype_uint16;
-#elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST16_MAX <= INT_MAX)
-typedef uint_least16_t yytype_uint16;
-#elif !defined __UINT_LEAST16_MAX__ && USHRT_MAX <= INT_MAX
-typedef unsigned short yytype_uint16;
-#else
-typedef int yytype_uint16;
-#endif
-
-#ifndef YYPTRDIFF_T
-# if defined __PTRDIFF_TYPE__ && defined __PTRDIFF_MAX__
-#  define YYPTRDIFF_T __PTRDIFF_TYPE__
-#  define YYPTRDIFF_MAXIMUM __PTRDIFF_MAX__
-# elif defined PTRDIFF_MAX
-#  ifndef ptrdiff_t
-#   include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  endif
-#  define YYPTRDIFF_T ptrdiff_t
-#  define YYPTRDIFF_MAXIMUM PTRDIFF_MAX
-# else
-#  define YYPTRDIFF_T long
-#  define YYPTRDIFF_MAXIMUM LONG_MAX
-# endif
 #endif
 
 #ifndef YYSIZE_T
@@ -255,7 +199,7 @@ typedef int yytype_uint16;
 #  define YYSIZE_T __SIZE_TYPE__
 # elif defined size_t
 #  define YYSIZE_T size_t
-# elif defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+# elif ! defined YYSIZE_T
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
@@ -263,19 +207,7 @@ typedef int yytype_uint16;
 # endif
 #endif
 
-#define YYSIZE_MAXIMUM                                  \
-  YY_CAST (YYPTRDIFF_T,                                 \
-           (YYPTRDIFF_MAXIMUM < YY_CAST (YYSIZE_T, -1)  \
-            ? YYPTRDIFF_MAXIMUM                         \
-            : YY_CAST (YYSIZE_T, -1)))
-
-#define YYSIZEOF(X) YY_CAST (YYPTRDIFF_T, sizeof (X))
-
-/* Stored state numbers (used for stacks). */
-typedef yytype_int8 yy_state_t;
-
-/* State numbers in computations.  */
-typedef int yy_state_fast_t;
+#define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
@@ -289,20 +221,22 @@ typedef int yy_state_fast_t;
 # endif
 #endif
 
-#ifndef YY_ATTRIBUTE_PURE
-# if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
 # else
-#  define YY_ATTRIBUTE_PURE
+#  define YY_ATTRIBUTE(Spec) /* empty */
 # endif
 #endif
 
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
 #ifndef YY_ATTRIBUTE_UNUSED
-# if defined __GNUC__ && 2 < __GNUC__ + (7 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
-# else
-#  define YY_ATTRIBUTE_UNUSED
-# endif
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
 /* Suppress unused-variable warnings by "using" E.  */
@@ -314,11 +248,11 @@ typedef int yy_state_fast_t;
 
 #if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
-    _Pragma ("GCC diagnostic push")                                     \
-    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
+    _Pragma ("GCC diagnostic push") \
+    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")\
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END \
     _Pragma ("GCC diagnostic pop")
 #else
 # define YY_INITIAL_VALUE(Value) Value
@@ -331,20 +265,6 @@ typedef int yy_state_fast_t;
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
-#if defined __cplusplus && defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__
-# define YY_IGNORE_USELESS_CAST_BEGIN                          \
-    _Pragma ("GCC diagnostic push")                            \
-    _Pragma ("GCC diagnostic ignored \"-Wuseless-cast\"")
-# define YY_IGNORE_USELESS_CAST_END            \
-    _Pragma ("GCC diagnostic pop")
-#endif
-#ifndef YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_END
-#endif
-
-
-#define YY_ASSERT(E) ((void) (0 && (E)))
 
 #if ! defined yyoverflow || YYERROR_VERBOSE
 
@@ -421,17 +341,17 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  yy_state_t yyss_alloc;
+  yytype_int16 yyss_alloc;
   YYSTYPE yyvs_alloc;
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
-# define YYSTACK_GAP_MAXIMUM (YYSIZEOF (union yyalloc) - 1)
+# define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (YYSIZEOF (yy_state_t) + YYSIZEOF (YYSTYPE)) \
+     ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
 # define YYCOPY_NEEDED 1
@@ -444,11 +364,11 @@ union yyalloc
 # define YYSTACK_RELOCATE(Stack_alloc, Stack)                           \
     do                                                                  \
       {                                                                 \
-        YYPTRDIFF_T yynewbytes;                                         \
+        YYSIZE_T yynewbytes;                                            \
         YYCOPY (&yyptr->Stack_alloc, Stack, yysize);                    \
         Stack = &yyptr->Stack_alloc;                                    \
-        yynewbytes = yystacksize * YYSIZEOF (*Stack) + YYSTACK_GAP_MAXIMUM; \
-        yyptr += yynewbytes / YYSIZEOF (*yyptr);                        \
+        yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        yyptr += yynewbytes / sizeof (*yyptr);                          \
       }                                                                 \
     while (0)
 
@@ -460,12 +380,12 @@ union yyalloc
 # ifndef YYCOPY
 #  if defined __GNUC__ && 1 < __GNUC__
 #   define YYCOPY(Dst, Src, Count) \
-      __builtin_memcpy (Dst, Src, YY_CAST (YYSIZE_T, (Count)) * sizeof (*(Src)))
+      __builtin_memcpy (Dst, Src, (Count) * sizeof (*(Src)))
 #  else
 #   define YYCOPY(Dst, Src, Count)              \
       do                                        \
         {                                       \
-          YYPTRDIFF_T yyi;                      \
+          YYSIZE_T yyi;                         \
           for (yyi = 0; yyi < (Count); yyi++)   \
             (Dst)[yyi] = (Src)[yyi];            \
         }                                       \
@@ -491,15 +411,14 @@ union yyalloc
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   267
 
-
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
-  (0 <= (YYX) && (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex.  */
-static const yytype_int8 yytranslate[] =
+static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
       18,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -532,7 +451,7 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
        0,    47,    47,    48,    50,    55,    56,    61,    69,    78,
       84,    85,    89,    92,    93,    94,    95,    96,    98,    99
@@ -554,7 +473,7 @@ static const char *const yytname[] =
 # ifdef YYPRINT
 /* YYTOKNUM[NUM] -- (External) token number corresponding to the
    (internal) symbol number NUM (which must be that of a token).  */
-static const yytype_int16 yytoknum[] =
+static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,    61,    45,    43,    42,    47,    10,    40,
@@ -562,14 +481,14 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-14)
+#define YYPACT_NINF -14
 
-#define yypact_value_is_default(Yyn) \
-  ((Yyn) == YYPACT_NINF)
+#define yypact_value_is_default(Yystate) \
+  (!!((Yystate) == (-14)))
 
-#define YYTABLE_NINF (-4)
+#define YYTABLE_NINF -4
 
-#define yytable_value_is_error(Yyn) \
+#define yytable_value_is_error(Yytable_value) \
   0
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
@@ -588,7 +507,7 @@ static const yytype_int8 yypact[] =
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
      Performed when YYTABLE does not specify something else to do.  Zero
      means the default is an error.  */
-static const yytype_int8 yydefact[] =
+static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     5,     0,     2,     0,
       10,    12,     0,     0,     0,     0,     1,     4,     0,     0,
@@ -638,7 +557,7 @@ static const yytype_int8 yycheck[] =
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-static const yytype_int8 yystos[] =
+static const yytype_uint8 yystos[] =
 {
        0,     1,     5,     6,     8,    12,    18,    24,    25,    26,
       27,    18,    19,    19,    19,    13,     0,    25,    12,    27,
@@ -650,14 +569,14 @@ static const yytype_int8 yystos[] =
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const yytype_int8 yyr1[] =
+static const yytype_uint8 yyr1[] =
 {
        0,    23,    24,    25,    25,    26,    26,    26,    26,    26,
       26,    27,    27,    28,    28,    28,    28,    28,    29,    29
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
-static const yytype_int8 yyr2[] =
+static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     1,     2,     1,    10,     8,    14,    14,
        1,     3,     2,     1,     3,     3,     3,     3,     1,     1
@@ -746,9 +665,7 @@ yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
   if (yytype < YYNTOKENS)
     YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   YYUSE (yytype);
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
 
@@ -772,7 +689,7 @@ yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 `------------------------------------------------------------------*/
 
 static void
-yy_stack_print (yy_state_t *yybottom, yy_state_t *yytop)
+yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
 {
   YYFPRINTF (stderr, "Stack now");
   for (; yybottom <= yytop; yybottom++)
@@ -795,19 +712,19 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  int yylno = yyrline[yyrule];
+  unsigned long yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
-  YYFPRINTF (stderr, "Reducing stack by rule %d (line %d):\n",
+  YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
              yyrule - 1, yylno);
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
-                       yystos[+yyssp[yyi + 1 - yynrhs]],
+                       yystos[yyssp[yyi + 1 - yynrhs]],
                        &yyvsp[(yyi + 1) - (yynrhs)]
                                               );
       YYFPRINTF (stderr, "\n");
@@ -852,13 +769,13 @@ int yydebug;
 
 # ifndef yystrlen
 #  if defined __GLIBC__ && defined _STRING_H
-#   define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
+#   define yystrlen strlen
 #  else
 /* Return the length of YYSTR.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yystrlen (const char *yystr)
 {
-  YYPTRDIFF_T yylen;
+  YYSIZE_T yylen;
   for (yylen = 0; yystr[yylen]; yylen++)
     continue;
   return yylen;
@@ -894,12 +811,12 @@ yystpcpy (char *yydest, const char *yysrc)
    backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
    null, do not copy; instead, return the length of what the result
    would have been.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yytnamerr (char *yyres, const char *yystr)
 {
   if (*yystr == '"')
     {
-      YYPTRDIFF_T yyn = 0;
+      YYSIZE_T yyn = 0;
       char const *yyp = yystr;
 
       for (;;)
@@ -930,10 +847,10 @@ yytnamerr (char *yyres, const char *yystr)
     do_not_strip_quotes: ;
     }
 
-  if (yyres)
-    return yystpcpy (yyres, yystr) - yyres;
-  else
+  if (! yyres)
     return yystrlen (yystr);
+
+  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
 }
 # endif
 
@@ -946,19 +863,19 @@ yytnamerr (char *yyres, const char *yystr)
    *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
    required number of bytes is too large to store.  */
 static int
-yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
-                yy_state_t *yyssp, int yytoken)
+yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+                yytype_int16 *yyssp, int yytoken)
 {
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
+  YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat: reported tokens (one for the "unexpected",
-     one per "expected"). */
+  /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  /* Actual size of YYARG. */
+  /* Number of reported tokens (one for the "unexpected", one per
+     "expected"). */
   int yycount = 0;
-  /* Cumulated lengths of YYARG.  */
-  YYPTRDIFF_T yysize = 0;
 
   /* There are many possibilities here to consider:
      - If this state is a consistent state with a default action, then
@@ -985,9 +902,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
   */
   if (yytoken != YYEMPTY)
     {
-      int yyn = yypact[+*yyssp];
-      YYPTRDIFF_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
-      yysize = yysize0;
+      int yyn = yypact[*yyssp];
       yyarg[yycount++] = yytname[yytoken];
       if (!yypact_value_is_default (yyn))
         {
@@ -1012,8 +927,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYPTRDIFF_T yysize1
-                    = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
                   if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
                     yysize = yysize1;
                   else
@@ -1040,9 +954,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
     }
 
   {
-    /* Don't count the "%s"s in the final size, but reserve room for
-       the terminator.  */
-    YYPTRDIFF_T yysize1 = yysize + (yystrlen (yyformat) - 2 * yycount) + 1;
+    YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
     if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
       yysize = yysize1;
     else
@@ -1072,8 +984,8 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
         }
       else
         {
-          ++yyp;
-          ++yyformat;
+          yyp++;
+          yyformat++;
         }
   }
   return 0;
@@ -1116,7 +1028,7 @@ int yynerrs;
 int
 yyparse (void)
 {
-    yy_state_fast_t yystate;
+    int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
 
@@ -1128,16 +1040,16 @@ yyparse (void)
        to reallocate them elsewhere.  */
 
     /* The state stack.  */
-    yy_state_t yyssa[YYINITDEPTH];
-    yy_state_t *yyss;
-    yy_state_t *yyssp;
+    yytype_int16 yyssa[YYINITDEPTH];
+    yytype_int16 *yyss;
+    yytype_int16 *yyssp;
 
     /* The semantic value stack.  */
     YYSTYPE yyvsa[YYINITDEPTH];
     YYSTYPE *yyvs;
     YYSTYPE *yyvsp;
 
-    YYPTRDIFF_T yystacksize;
+    YYSIZE_T yystacksize;
 
   int yyn;
   int yyresult;
@@ -1151,7 +1063,7 @@ yyparse (void)
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
   char *yymsg = yymsgbuf;
-  YYPTRDIFF_T yymsg_alloc = sizeof yymsgbuf;
+  YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N))
@@ -1183,14 +1095,10 @@ yynewstate:
 
 
 /*--------------------------------------------------------------------.
-| yysetstate -- set current state (the top of the stack) to yystate.  |
+| yynewstate -- set current state (the top of the stack) to yystate.  |
 `--------------------------------------------------------------------*/
 yysetstate:
-  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
-  YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
-  YY_IGNORE_USELESS_CAST_BEGIN
-  *yyssp = YY_CAST (yy_state_t, yystate);
-  YY_IGNORE_USELESS_CAST_END
+  *yyssp = (yytype_int16) yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
@@ -1198,23 +1106,23 @@ yysetstate:
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYPTRDIFF_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
 
 # if defined yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
            memory.  */
-        yy_state_t *yyss1 = yyss;
         YYSTYPE *yyvs1 = yyvs;
+        yytype_int16 *yyss1 = yyss;
 
         /* Each stack pointer address is followed by the size of the
            data in use in that stack, in bytes.  This used to be a
            conditional around just the two extra args, but that might
            be undefined if yyoverflow is a macro.  */
         yyoverflow (YY_("memory exhausted"),
-                    &yyss1, yysize * YYSIZEOF (*yyssp),
-                    &yyvs1, yysize * YYSIZEOF (*yyvsp),
+                    &yyss1, yysize * sizeof (*yyssp),
+                    &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
         yyss = yyss1;
         yyvs = yyvs1;
@@ -1228,10 +1136,9 @@ yysetstate:
         yystacksize = YYMAXDEPTH;
 
       {
-        yy_state_t *yyss1 = yyss;
+        yytype_int16 *yyss1 = yyss;
         union yyalloc *yyptr =
-          YY_CAST (union yyalloc *,
-                   YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
+          (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
         if (! yyptr)
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
@@ -1245,15 +1152,15 @@ yysetstate:
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
-      YY_IGNORE_USELESS_CAST_BEGIN
-      YYDPRINTF ((stderr, "Stack size increased to %ld\n",
-                  YY_CAST (long, yystacksize)));
-      YY_IGNORE_USELESS_CAST_END
+      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
+                  (unsigned long) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
     }
 #endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+
+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
   if (yystate == YYFINAL)
     YYACCEPT;
@@ -1314,13 +1221,15 @@ yybackup:
 
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+
+  /* Discard the shifted token.  */
+  yychar = YYEMPTY;
+
   yystate = yyn;
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
   goto yynewstate;
 
 
@@ -1355,57 +1264,57 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
-#line 47 "calc.y"
-            {final=(yyvsp[0].stmtsptr);}
-#line 1362 "calc.tab.c"
+        case 2:
+#line 47 "calc.y" /* yacc.c:1652  */
+    {final=(yyvsp[0].stmtsptr);}
+#line 1271 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 48 "calc.y"
-            {(yyval.stmtsptr)=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
+#line 48 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtsptr)=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
    (yyval.stmtsptr)->singl=1;(yyval.stmtsptr)->left=(yyvsp[0].stmtptr),(yyval.stmtsptr)->right=NULL;}
-#line 1369 "calc.tab.c"
+#line 1278 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 50 "calc.y"
-             {(yyval.stmtsptr)=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
+#line 50 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtsptr)=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
    (yyval.stmtsptr)->singl=0;(yyval.stmtsptr)->left=(yyvsp[-1].stmtptr),(yyval.stmtsptr)->right=(yyvsp[0].stmtsptr);}
-#line 1376 "calc.tab.c"
+#line 1285 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 55 "calc.y"
-               {(yyval.stmtptr)=NULL;}
-#line 1382 "calc.tab.c"
+#line 55 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtptr)=NULL;}
+#line 1291 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 56 "calc.y"
-                                                         {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-      (yyval.stmtptr)->isWhileOrFor=1;
+#line 56 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+      (yyval.stmtptr)->isWhile=1;
       sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-7].tptr)->addr,(yyvsp[-5].tptr)->addr);
       sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
       (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); }
-#line 1392 "calc.tab.c"
+#line 1301 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 62 "calc.y"
-      {
+#line 62 "calc.y" /* yacc.c:1652  */
+    {
         (yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
         (yyval.stmtptr)->isBreakorContinue = 1;
         sprintf((yyval.stmtptr)->initCode,"lw $t3, %s($t8)\nlw $t4, %s($t8)\n", (yyvsp[-3].tptr)->addr,(yyvsp[-5].tptr)->addr);
         sprintf((yyval.stmtptr)->initJumpCode,"bge $t3, $t4,");
 
       }
-#line 1404 "calc.tab.c"
+#line 1313 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 70 "calc.y"
-      {
+#line 70 "calc.y" /* yacc.c:1652  */
+    {
         (yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
         (yyval.stmtptr)->isIfElse = 1;
         sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-11].tptr)->addr,(yyvsp[-9].tptr)->addr);
@@ -1413,85 +1322,84 @@ yyreduce:
         (yyval.stmtptr)->ifcode = (yyvsp[-6].stmtsptr);
         (yyval.stmtptr)->elsecode = (yyvsp[-2].stmtsptr);
       }
-#line 1417 "calc.tab.c"
+#line 1326 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 79 "calc.y"
-{(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-      (yyval.stmtptr)->isWhileOrFor=2;
+#line 79 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+      (yyval.stmtptr)->isFor=1;
       sprintf((yyval.stmtptr)->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", (yyvsp[-9].tptr)->addr,(yyvsp[-7].tptr)->addr);
       sprintf((yyval.stmtptr)->initJumpCode,"bge $t0, $t1,");
       (yyval.stmtptr)->down=(yyvsp[-2].stmtsptr); (yyval.stmtptr)->forinit=(yyvsp[-11].stmtptr); (yyval.stmtptr)->forincre=(yyvsp[-5].stmtptr); }
-#line 1427 "calc.tab.c"
+#line 1336 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 84 "calc.y"
-               {(yyval.stmtptr)=(yyvsp[0].stmtptr);}
-#line 1433 "calc.tab.c"
+#line 84 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtptr)=(yyvsp[0].stmtptr);}
+#line 1342 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 85 "calc.y"
-                       {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-      (yyval.stmtptr)->isWhileOrFor=0;
+#line 85 "calc.y" /* yacc.c:1652  */
+    {(yyval.stmtptr)=(struct StmtNode *) malloc(sizeof(struct StmtNode));
+      (yyval.stmtptr)->isWhile = 0 ; (yyval.stmtptr)->isFor=0;
       sprintf((yyval.stmtptr)->bodyCode,"%s\nsw $t0,%s($t8)\n", (yyvsp[0].c), (yyvsp[-2].tptr)->addr);
       (yyval.stmtptr)->down=NULL; }
-#line 1442 "calc.tab.c"
+#line 1351 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 89 "calc.y"
-                     { yyerrok; }
-#line 1448 "calc.tab.c"
+#line 89 "calc.y" /* yacc.c:1652  */
+    { yyerrok; }
+#line 1357 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 92 "calc.y"
-                           { sprintf((yyval.c),"%s",(yyvsp[0].nData));count=(count+1)%2;}
-#line 1454 "calc.tab.c"
+#line 92 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s",(yyvsp[0].nData));count=(count+1)%2;}
+#line 1363 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 93 "calc.y"
-                   { sprintf((yyval.c),"%s\n%s\nadd $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1460 "calc.tab.c"
+#line 93 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\nadd $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+#line 1369 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 94 "calc.y"
-                         { sprintf((yyval.c),"%s\n%s\nsub $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1466 "calc.tab.c"
+#line 94 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\nsub $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+#line 1375 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 95 "calc.y"
-                         { sprintf((yyval.c),"%s\n%s\nmul $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1472 "calc.tab.c"
+#line 95 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\nmul $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+#line 1381 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 96 "calc.y"
-                         { sprintf((yyval.c),"%s\n%s\ndiv $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
-#line 1478 "calc.tab.c"
+#line 96 "calc.y" /* yacc.c:1652  */
+    { sprintf((yyval.c),"%s\n%s\ndiv $t0, $t0, $t1",(yyvsp[-2].nData),(yyvsp[0].nData));}
+#line 1387 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 98 "calc.y"
-         {sprintf((yyval.nData),"li $t%d, %d",count,(yyvsp[0].val));count=(count+1)%2; }
-#line 1484 "calc.tab.c"
+#line 98 "calc.y" /* yacc.c:1652  */
+    {sprintf((yyval.nData),"li $t%d, %d",count,(yyvsp[0].val));count=(count+1)%2; }
+#line 1393 "calc.tab.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 99 "calc.y"
-      {sprintf((yyval.nData), "lw $t%d, %s($t8)",count,(yyvsp[0].tptr)->addr);count=(count+1)%2; }
-#line 1490 "calc.tab.c"
+#line 99 "calc.y" /* yacc.c:1652  */
+    {sprintf((yyval.nData), "lw $t%d, %s($t8)",count,(yyvsp[0].tptr)->addr);count=(count+1)%2; }
+#line 1399 "calc.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1494 "calc.tab.c"
-
+#line 1403 "calc.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1554,7 +1462,7 @@ yyerrlab:
           {
             if (yymsg != yymsgbuf)
               YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
+            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
             if (!yymsg)
               {
                 yymsg = yymsgbuf;
@@ -1709,7 +1617,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[+*yyssp], yyvsp);
+                  yystos[*yyssp], yyvsp);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -1722,7 +1630,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 101 "calc.y"
+#line 101 "calc.y" /* yacc.c:1918  */
 
 
 void StmtsTrav(stmtsptr ptr){
@@ -1738,7 +1646,7 @@ void StmtsTrav(stmtsptr ptr){
    int ws,nj;
    printf("stmt\n");
    if(ptr==NULL) return;
-   if(ptr->isWhileOrFor==0 && ptr->isIfElse==0 &&ptr->isBreakorContinue==0){fprintf(fp,"%s\n",ptr->bodyCode);}
+   if(ptr->isWhile==0 &&ptr->isFor==0 && ptr->isIfElse==0 &&ptr->isBreakorContinue==0){fprintf(fp,"%s\n",ptr->bodyCode);}
    if(ptr->isIfElse==1){ws=ifelseStart; ifelseStart++;nj=nextJumpIfElse;nextJumpIfElse++;
     fprintf(fp,"IfStart%d:%s\n%s NextPartIfElse%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->ifcode);
     fprintf(fp,"j ElseEnd%d\nNextPartIfElse%d:\n",ws,nj);
@@ -1746,12 +1654,12 @@ void StmtsTrav(stmtsptr ptr){
     fprintf(fp,"ElseEnd%d:\n",ws);
 
    }
-   if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;inWhileloop=1;
+   if(ptr->isWhile==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;inWhileloop=1;
      fprintf(fp,"LabStartWhile%d:%s\n%s NextPartWhile%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj); 
      inWhileloop=0;
 }
-    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;inForloop=1;
+    if(ptr->isFor==1){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;inForloop=1;
      StmtTrav(ptr->forinit);
      fprintf(fp,"LabStartFor%d:%s\n%s NextPartFor%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      StmtTrav(ptr->forincre);

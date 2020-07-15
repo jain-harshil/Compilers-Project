@@ -26,8 +26,8 @@ struct StmtsNode
 
 struct StmtNode
 {
-  int isWhileOrFor; 
-  // 0=assign 1=while 2=for
+  int isWhile; 
+  int isFor;
   int isIfElse;
   int isBreakorContinue;
   char initCode[100];

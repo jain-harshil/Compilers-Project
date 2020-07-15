@@ -54,7 +54,7 @@ stmts: stmt {$$=(struct StmtsNode *) malloc(sizeof(struct StmtsNode));
 stmt:
           '\n' {$$=NULL;}
         | WHILE '(' VAR RELOP VAR ')' '{' stmts '}' '\n' {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-      $$->isWhileOrFor=1;
+      $$->isWhile=1;
       sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $3->addr,$5->addr);
       sprintf($$->initJumpCode,"bge $t0, $t1,");
       $$->down=$8; }
@@ -77,13 +77,13 @@ stmt:
       }
       | FOR '(' a_stat SEMIC VAR RELOP VAR SEMIC a_stat ')' '{' stmts '}' '\n' 
 {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-      $$->isWhileOrFor=2;
+      $$->isFor=1;
       sprintf($$->initCode,"lw $t0, %s($t8)\nlw $t1, %s($t8)\n", $5->addr,$7->addr);
       sprintf($$->initJumpCode,"bge $t0, $t1,");
       $$->down=$12; $$->forinit=$3; $$->forincre=$9; }
       | a_stat {$$=$1;};
 a_stat: VAR '=' exp    {$$=(struct StmtNode *) malloc(sizeof(struct StmtNode));
-      $$->isWhileOrFor=0;
+      $$->isWhile = 0 ; $$->isFor=0;
       sprintf($$->bodyCode,"%s\nsw $t0,%s($t8)\n", $3, $1->addr);
       $$->down=NULL; }
         | error '\n' { yyerrok; };
@@ -113,7 +113,7 @@ void StmtsTrav(stmtsptr ptr){
    int ws,nj;
    printf("stmt\n");
    if(ptr==NULL) return;
-   if(ptr->isWhileOrFor==0 && ptr->isIfElse==0 &&ptr->isBreakorContinue==0){fprintf(fp,"%s\n",ptr->bodyCode);}
+   if(ptr->isWhile==0 &&ptr->isFor==0 && ptr->isIfElse==0 &&ptr->isBreakorContinue==0){fprintf(fp,"%s\n",ptr->bodyCode);}
    if(ptr->isIfElse==1){ws=ifelseStart; ifelseStart++;nj=nextJumpIfElse;nextJumpIfElse++;
     fprintf(fp,"IfStart%d:%s\n%s NextPartIfElse%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->ifcode);
     fprintf(fp,"j ElseEnd%d\nNextPartIfElse%d:\n",ws,nj);
@@ -121,12 +121,12 @@ void StmtsTrav(stmtsptr ptr){
     fprintf(fp,"ElseEnd%d:\n",ws);
 
    }
-   if(ptr->isWhileOrFor==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;inWhileloop=1;
+   if(ptr->isWhile==1){ws=whileStart; whileStart++;nj=nextJump;nextJump++;inWhileloop=1;
      fprintf(fp,"LabStartWhile%d:%s\n%s NextPartWhile%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      fprintf(fp,"j LabStartWhile%d\nNextPartWhile%d:\n",ws,nj); 
      inWhileloop=0;
 }
-    if(ptr->isWhileOrFor==2){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;inForloop=1;
+    if(ptr->isFor==1){ws=forStart; forStart++;nj=nextJumpfor;nextJumpfor++;inForloop=1;
      StmtTrav(ptr->forinit);
      fprintf(fp,"LabStartFor%d:%s\n%s NextPartFor%d\n",ws,ptr->initCode,ptr->initJumpCode,nj);StmtsTrav(ptr->down);
      StmtTrav(ptr->forincre);
