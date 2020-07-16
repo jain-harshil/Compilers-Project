@@ -3,10 +3,10 @@ max=5
 sum=0
 min=10
 while(i<max){
-j=0
-for(j=0;j<max;j=j+1){
-sum = sum + 1
-}
-i=i+1
+ j=0
+ for(j=0;j<max;j=j+1){
+  sum = sum + 1
+ }
+ i=i+1
 }
 sum=sum+0
