@@ -2,8 +2,8 @@ j=10
 p=2
 k=0
 for(i=0;i<j;i=i+1){   
-for(t=0;t<j;t=t+1){
-k=k+1
-}
+ for(t=0;t<j;t=t+1){
+  k=k+1
+ }
 }
 k=k
