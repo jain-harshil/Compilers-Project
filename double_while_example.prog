@@ -3,18 +3,18 @@ p=15
 k=0
 i=0
 while(i<j){   
-if(p<j)break
-i=i+1
-p=p-1
-k=k+1
-}
+   if(p<j)break
+   i=i+1
+   p=p-1
+   k=k+1
+   }
 j=10
 p=15
 i=0
 while(i<j){   
-if(p<j)break
-i=i+1
-p=p-1
-k=k+1
-}
+   if(p<j)break
+   i=i+1
+   p=p-1
+   k=k+1
+   }
 k=k
